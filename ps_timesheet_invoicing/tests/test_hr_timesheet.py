@@ -12,6 +12,7 @@ class TestHrTimesheet(TransactionCase):
         )
         self.env.company.timesheet_sheet_review_policy = "timesheet_manager"
         self.user = self.env.ref("base.user_demo")
+        # demo user by default has too much permissions for this test to be sensible
         self.user.write(
             {
                 "groups_id": [
@@ -28,7 +29,6 @@ class TestHrTimesheet(TransactionCase):
         """Test creating and submitting timesheets"""
         task = self.project.task_ids[:1]
         task.standard = True
-        # demo user by default has too much permissions for this test to be sensible
         self.project.allowed_internal_user_ids += self.user
         sheet = self.env["hr_timesheet.sheet"].with_user(self.user).create({})
         sheet.add_line_project_id = self.project
